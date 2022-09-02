@@ -38,11 +38,21 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//for hiding data
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+
+    delete userObject.password
+    delete userObject.tokens
+
+    return userObject
+}
+
 //for generating token
 userSchema.methods.generateToken = async function (){
     const user = this
-    const token = await jwt.sign({ "_id": user._id.toString()}, "SECRET")
-
+    const token =  jwt.sign({ "_id": user._id.toString()}, "SECRET")
     user.tokens = user.tokens.concat({token})
     await user.save()
     return token
