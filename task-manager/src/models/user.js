@@ -38,6 +38,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//Setting tasks for users Virtually
+userSchema.virtual('tasks',{
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'author'
+})
+
 //for hiding data
 userSchema.methods.toJSON = function () {
     const user = this
@@ -75,7 +82,6 @@ userSchema.statics.findByCredentials = async (email, password) =>{
 //for securing passwords
 userSchema.pre('save', async function(next){
     const user = this
-    //console.log('Before Save')
     if(user.isModified('password')){
         user.password = await bcryptjs.hash(user.password, 8)
     }
