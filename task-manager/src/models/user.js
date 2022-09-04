@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
     }, age: {
         type: Number,
         default: 0
+    }, avatar: {
+        type: Buffer
     }, tokens: [{
         token: {
             type: String,
@@ -55,6 +57,9 @@ userSchema.methods.toJSON = function () {
 
     delete userObject.password
     delete userObject.tokens
+    if(userObject.avatar){
+        delete userObject.avatar
+    } 
 
     return userObject
 }
