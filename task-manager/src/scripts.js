@@ -4,15 +4,12 @@ const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
 
 const app = express()
-
-// app.use((req,res,next)=>{
-//     res.status(503).send('Server under maintainance. Please try again later!')
-// })
+const port = 3000
 
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
 
-app.listen(3000, () => {
-    console.log('Server started')
+app.listen(port, () => {
+    console.log('Server is up on port ' + port)
 })
